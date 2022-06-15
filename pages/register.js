@@ -133,11 +133,11 @@ const Register=()=>{
                                                  text-gray-700 text-sm font-bold mb-2" for="password">
                                                     Password
                                                 </label>
-                                                <input class="focus:ring-4 focus:ring-blue-300 shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************"onChange={e=>setPassword1(e.target.value)}/>
+                                                <input class="focus:ring-4 focus:ring-blue-300 shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="••••••••"onChange={e=>setPassword1(e.target.value)}/>
                                                 <label class="block mt-2 text-gray-700 text-sm font-bold mb-2" for="password">
                                                     Verify Password
                                                 </label>
-                                                <input class="focus:ring-4 focus:ring-blue-300 shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************"onChange={e=>setPassword2(e.target.value)}/>
+                                                <input class="focus:ring-4 focus:ring-blue-300 shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="••••••••"onChange={e=>setPassword2(e.target.value)}/>
                                                 
                                                 <p class="text-red-500 text-xs italic">{passMessage}</p>
                                                 </div>
