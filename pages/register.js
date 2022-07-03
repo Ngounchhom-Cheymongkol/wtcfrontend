@@ -7,8 +7,8 @@ const Register=()=>{
     const [username,setUsername]=useState();
     const [gender,setGender]=useState();
     const [password,setPassword]=useState();
-    const [password1,setPassword1]=useState();
-    const [password2,setPassword2]=useState();
+    const [password1,setPassword1]=useState("");
+    const [password2,setPassword2]=useState("");
     const [email,setEmail]=useState();
     const [full_name,setFull_name]=useState();
     const [age,setAge]=useState();
@@ -16,17 +16,12 @@ const Register=()=>{
     const [passMessage,setPassMessage]=useState("");
     const router=useRouter();
     const SubmitRegister = async (e) => {
-        e.preventDefault();
-        if(password1==password2){
+        
+        if(password1.localeCompare(password2)){
             setPassword(password1);
-        }else{
-            
-            setSassMessage("password not match");
-            return 0;
-        }
-                    axios.post('http://localhost:8000/api/regidter',
+            setPassMessage("");
+            axios.post('http://localhost:8000/api/register',
                     {
-                        "role_id":2,
                         'username':username,
                         'full_name':full_name,
                         'gender':gender,
@@ -36,17 +31,18 @@ const Register=()=>{
                         'password':password
 
                     }).then(function (response) {
-                        submit();
+                        alert("register success")
                   })
                 .catch((e) => {
                     console.log(e);
                 })
-                    
-
+        }else{
+            setPassMessage("password not match");
+            return 0;
+        }       
         await router.push('/');
     }
-    const submit = async (e) => {
-        e.preventDefault();
+    const submit = async () => {
 
         // await fetch(`http://localhost:8000/api/login`, {
         //     method: 'POST',
@@ -58,12 +54,10 @@ const Register=()=>{
         //         password
         //     })
         // });
-                    axios.post('http://localhost:8000/api/login',{"email":email,'password':password}
+                    axios.post('http://localhost:8000/api/login',{"email":email,'password':password1}
                      ,{
-                    mode: 'cors',
-                    headers: {'Content-Type': 'application/json'},
                     credentials: 'include',
-                   // withCredentials: true,
+                   withCredentials: true,
                 }).then(function (response) {
                     console.log(response.data.token);
                     jsCookie.set('jwt',response.data.token,{expires:1/24});
@@ -73,8 +67,6 @@ const Register=()=>{
                     console.log(e);
                 })
                     
-
-        await router.push('/');
     }
     return(
             <div className="relative w-full h-full">
@@ -91,7 +83,7 @@ const Register=()=>{
                                        <div className='flex justify-center w-full text-cetner text-cyan-900 text-2xl text-bold'>
                                            <h1 className='text-3xl font-bold'>Register</h1>
                                        </div>
-                                            <form class="px-8 pt-6 pb-8 mb-4" onSubmit={SubmitRegister}>
+                                            <form class="px-8 pt-6 pb-8 mb-4">
                                                 <div class="mb-4">
                                                 <label class="block mt-2 text-gray-700 text-sm font-bold mb-2" for="username">
                                                     Username
@@ -105,7 +97,9 @@ const Register=()=>{
                                                     <div className="w-1/2 text-cyan-900 font-bold p-2">
                                                         Gender
                                                         <label for="underline_select" class="sr-only">Underline select</label>
-                                                        <select id="underline_select" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-cyan-900 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                                                        <select onChange={(e)=>{
+                                                            setGender(e.target.value)
+                                                        }}  id="underline_select" class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-cyan-900 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
                                                             <option selected>Male</option>
                                                             <option value="US">Female</option>
                                                             
@@ -142,7 +136,34 @@ const Register=()=>{
                                                 <p class="text-red-500 text-xs italic">{passMessage}</p>
                                                 </div>
                                                 <div class="flex items-center justify-between">
-                                                <button class="bg-cyan-900 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                                                <button onClick={async () => {
+                                                    await axios.post('http://localhost:8000/api/register',
+                                                                {
+                                                                    'username':username,
+                                                                    'full_name':full_name,
+                                                                    'gender':gender,
+                                                                    'phonenumber':phonenumber,
+                                                                    'age':age,
+                                                                    "email":email,
+                                                                    'password':password1
+
+                                                                }).then(function (response) {
+                                                                    alert("register success")
+                                                            })
+                                                            .catch((e) => {
+                                                                console.log(e);
+                                                            })
+                                                            submit();
+                                                            await router.push('/');
+                                                    // console.log(password1,password2)
+                                                    // if(!password1.localeCompare(password2)){
+                                                    //     setPassword(password1);
+                                                    //     setPassMessage("");
+                                                        
+                                                    // }else{
+                                                    //     setPassMessage("password not match");
+                                                    // }       
+                                                    }} class="bg-cyan-900 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                                                     Sign In
                                                 </button>
                                                 <a class="inline-block align-baseline font-bold text-sm text-cyan-900 hover:text-cyan-700" href="#">
@@ -155,8 +176,7 @@ const Register=()=>{
                                             </p>
                                         
                                    </div>
-                            </div>     
-                                 
+                            </div>         
             </div>  
 
     )

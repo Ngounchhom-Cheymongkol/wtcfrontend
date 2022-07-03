@@ -22,10 +22,11 @@ const AddRoute=()=>{
                         'departure_time':Departure_Time,
                         'arrival_time':Arrival_Time,
                         'departure_location':Departure_Point,
-                        "destination_location":Destination_Point,
+                        'destination_location':Destination_Point,
                         'number_busseat':Number_Seat
                     },{
-                        withCredentials:true
+                        withCredentials: true,
+                        headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
                     }).then(function (response) {
                         console.log("success")
                   })
@@ -41,13 +42,13 @@ const AddRoute=()=>{
                 console.log("Not login")
         })
                   
-    });
+    },[]);
     if(open){
         return(<>
             <button  onClick={()=>{
                 setOpen(true)
             }}  type="button" data-modal-toggle="authentication-modal" className="w-10 h-10 p-2 bg-cyan-900 rounded-xl focus:ring-4 focus:ring-blue-300 mx-2"><Image width="100%" height="100%" layout="responsive" src={"/img/add1.png"}></Image></button>          
-                <div class="fixed  w-screen md:inset-0 h-screen  m-auto pt-52 bg-opacity-50 bg-white">
+                <div class="fixed w-screen md:inset-0 h-screen  m-auto pt-52 bg-opacity-50 bg-white">
                 <div class="relative p-2 w-3/4 max-w-md h-full md:h-auto m-auto">
 
                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -67,7 +68,7 @@ const AddRoute=()=>{
                                                             
                                                             {
                                                                 Province.map((number) =>
-                                                                <option value="US">{number.province_name}</option>
+                                                                <option value={number.province_name}>{number.province_name}</option>
                                                                 )
                                                             }
 
@@ -81,7 +82,7 @@ const AddRoute=()=>{
                                                             <option selected>Male</option>
                                                             {
                                                                 Province.map((number) =>
-                                                                <option value="US">{number.province_name}</option>
+                                                                <option value={number.province_name}>{number.province_name}</option>
                                                                 )
                                                             }
                                                             

@@ -5,15 +5,15 @@ import Router from 'next/router';
 import { login } from './api/hello';
 import {useRouter} from "next/router";
 import jsCookie from 'js-cookie';
+import { useCookies } from 'react-cookie';
 const Login=()=>{
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
-
+    const [cookies, setCookie, removeCookie] = useCookies(['jwt']);
     const submit = async (e) => {
         e.preventDefault();
-
-        // await fetch(`http://localhost:8000/api/login`, {
+        // await fetch(`http://127.0.0.1:8000/api/login`, {
         //     method: 'POST',
         //     headers: {'Content-Type': 'application/json'},
         //     credentials: 'include',
@@ -23,7 +23,7 @@ const Login=()=>{
         //         password
         //     })
         // });
-                    axios.post('http://localhost:8000/api/login',{"email":email,'password':password}
+                    await axios.post('http://127.0.0.1:8000/api/login',{"email":email,'password':password}
                      ,{
                     mode: 'cors',
                     headers: {'Content-Type': 'application/json'},
@@ -31,14 +31,14 @@ const Login=()=>{
                    // withCredentials: true,
                 }).then(function (response) {
                     console.log(response.data.token);
+                    setCookie('jwt',response.data.token,{path:"/"})
                     jsCookie.set('jwt',response.data.token,{expires:1/24});
                    // Cookies.set(response.headers['set-cookie'])
                   })
                 .catch((e) => {
                     console.log(e);
-                })
-                    
-
+                    alert(e)
+                 })
         await router.push('/');
     }
     return(
